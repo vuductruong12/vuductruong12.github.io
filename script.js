@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-	const GITHUB_USER = 'voniem12';
+	const DEFAULT_USER = 'vuductruong12';
+	const GITHUB_USER = resolveGithubUser();
 	const REVEAL_FALLBACK_MS = 45000; // Dự phòng nếu không lấy được duration/ended
 
 	const projectsContainer = document.getElementById('projects');
@@ -74,6 +75,9 @@
 			if (tagline) tagline.hidden = false;
 			if (mainEl) mainEl.hidden = false;
 			if (footerEl) footerEl.hidden = false;
+			// Cập nhật link footer sang đúng user
+			const footerLink = document.querySelector('.site-footer a');
+			if (footerLink) footerLink.href = `https://github.com/${GITHUB_USER}`;
 			loadRepos(GITHUB_USER).catch(() => {
 				showError();
 			});
@@ -86,6 +90,20 @@
 			}, ms);
 		}
 	});
+
+	function resolveGithubUser() {
+		// Ưu tiên lấy từ domain GitHub Pages: <username>.github.io
+		try {
+			const host = String(window.location.hostname || '').toLowerCase();
+			if (host.endsWith('.github.io')) {
+				const candidate = host.split('.')[0];
+				if (/^[a-z0-9-]+$/.test(candidate)) {
+					return candidate;
+				}
+			}
+		} catch (_) {}
+		return DEFAULT_USER;
+	}
 
 	function onAudioToggleClick() {
 		if (!videoEl) return;
