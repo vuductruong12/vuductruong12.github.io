@@ -1,0 +1,221 @@
+/* Reset and base layout */
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+/* Make sure content stacks above the background */
+.overlay {
+	position: relative;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	color: #f3f4f6;
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Fullscreen background video locked to viewport */
+.bg-video {
+	position: fixed;
+	inset: 0;
+	width: 100vw;
+	height: 100vh;
+	object-fit: cover; /* fills the screen without letterboxing; switch to 'contain' if you prefer no cropping */
+	z-index: -2;
+	background: #000;
+}
+
+/* Darken for text readability */
+.scrim {
+	position: fixed;
+	inset: 0;
+	background: radial-gradient(1200px 800px at 20% 10%, rgba(0,0,0,0.15), rgba(0,0,0,0.55)),
+		linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.65) 100%);
+	z-index: -1;
+	pointer-events: none;
+}
+
+.site-header {
+	padding: 48px 24px 12px;
+	text-align: center;
+}
+
+.site-header h1 {
+	margin: 0 0 8px 0;
+	font-size: 40px;
+	font-weight: 800;
+	letter-spacing: 0.3px;
+	text-shadow: 0 2px 16px rgba(0,0,0,0.6);
+}
+
+.tagline {
+	margin: 0;
+	color: #d1d5db;
+}
+
+main {
+	padding: 12px 24px 48px;
+}
+
+.projects-section h2 {
+	margin: 0 0 16px 0;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.projects-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	column-gap: 12px;
+	row-gap: 24px;
+	align-items: stretch; /* make items equal height per row */
+}
+
+.project-card {
+	background: rgba(17, 24, 39, 0.6);
+	backdrop-filter: blur(6px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 10px;
+	padding: 12px;
+	transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+	display: flex;              /* layout inside card */
+	flex-direction: column;     /* stack content */
+	height: 100%;               /* fill grid track height */
+	overflow: hidden;           /* prevent shadow/content from overlapping other rows */
+}
+
+.project-card:hover {
+	transform: translateY(0);
+	box-shadow: none;
+	background: rgba(17, 24, 39, 0.7);
+}
+
+.project-card h3 {
+	margin: 0 0 6px 0;
+	font-size: 16px;
+}
+
+.project-card h3 a {
+	color: #f3f4f6;
+	text-decoration: none;
+}
+
+.project-card h3 a:hover {
+	text-decoration: underline;
+}
+
+.project-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	color: #d1d5db;
+	font-size: 12px;
+	margin-top: 4px;
+	gap: 8px;
+}
+
+.project-desc {
+	margin: 6px 0 10px;
+	color: #e5e7eb;
+	min-height: 40px; /* normalize varying descriptions */
+	font-size: 14px;
+}
+
+.project-actions a {
+	display: inline-block;
+	margin-right: 8px;
+	padding: 6px 10px;
+	border-radius: 6px;
+	text-decoration: none;
+	color: #111827;
+	background: #93c5fd;
+	border: 1px solid rgba(0,0,0,0.08);
+	font-size: 13px;
+}
+
+.project-actions a.secondary {
+	background: transparent;
+	color: #f3f4f6;
+	border: 1px solid rgba(255,255,255,0.22);
+}
+
+.project-actions {
+	margin-top: auto;           /* push buttons to bottom */
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.empty-state, .error-state {
+	background: rgba(0, 0, 0, 0.45);
+	padding: 14px 16px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+}
+
+.site-footer {
+	margin-top: auto;
+	padding: 16px 24px 28px;
+	text-align: center;
+	color: #d1d5db;
+}
+
+.site-footer a {
+	color: #93c5fd;
+	text-decoration: none;
+}
+
+.audio-toggle {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 10;
+	border: 1px solid rgba(255,255,255,0.22);
+	background: rgba(17, 24, 39, 0.7);
+	backdrop-filter: blur(6px);
+	color: #f3f4f6;
+	border-radius: 999px;
+	width: 44px;
+	height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.audio-toggle:hover {
+	background: rgba(17, 24, 39, 0.85);
+}
+
+.skip-toggle {
+	position: fixed;
+	right: 76px;
+	bottom: 24px;
+	z-index: 10;
+	border: 1px solid rgba(255,255,255,0.22);
+	background: rgba(17, 24, 39, 0.7);
+	backdrop-filter: blur(6px);
+	color: #f3f4f6;
+	border-radius: 999px;
+	height: 44px;
+	padding: 0 14px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.skip-toggle:hover {
+	background: rgba(17, 24, 39, 0.85);
+}
+
+@media (max-width: 480px) {
+	.site-header { padding: 32px 16px 8px; }
+	.site-header h1 { font-size: 28px; }
+	main { padding: 8px 16px 36px; }
+}
+
+

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>vuductruong | Dự án</title>
+	<meta name="description" content="Danh sách các dự án của vuductruong" />
+	<link rel="preload" as="video" href="backgroundgithub.mp4" />
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	<video class="bg-video" autoplay muted loop playsinline preload="auto">
+		<source src="backgroundgithub.mp4" type="video/mp4" />
+	</video>
+	<div class="scrim" aria-hidden="true"></div>
+
+	<div class="overlay">
+		<header class="site-header">
+			<h1>Vũ Đức Trường</h1>
+			<p class="tagline" hidden>Dự án của tôi</p>
+		</header>
+		<button id="audioToggle" class="audio-toggle" aria-label="Bật/Tắt âm thanh" title="Bật/Tắt âm thanh">🔇</button>
+		<button id="skipReveal" class="skip-toggle" aria-label="Bỏ qua giới thiệu" title="Bỏ qua giới thiệu">Bỏ qua</button>
+
+		<main hidden>
+			<section class="projects-section">
+				<h2>Các dự án</h2>
+				<div id="projects" class="projects-grid" aria-live="polite"></div>
+				<div id="projects-empty" class="empty-state" hidden>Không tìm thấy dự án nào.</div>
+				<div id="projects-error" class="error-state" hidden>Không thể tải danh sách dự án. Vui lòng thử lại sau.</div>
+			</section>
+		</main>
+
+		<footer class="site-footer" hidden>
+			<a href="https://github.com/vuductruong" target="_blank" rel="noopener">GitHub</a>
+		</footer>
+	</div>
+
+	<script src="script.js" defer></script>
+	<!-- Gợi ý: Đảm bảo file backgroundgithub.mp4 nhỏ hơn ~100MB để phù hợp GitHub Pages -->
+</body>
+</html>
+
+
