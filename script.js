@@ -128,11 +128,12 @@
 		audioToggle.setAttribute('aria-pressed', muted ? 'false' : 'true');
 	}
 
-	async function loadRepos(username) {
+	async function loadRepos(username, attempt = 0) {
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), 15000);
 		try {
 			const url = `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`;
+			console.log('[repos] fetching for user:', username, url);
 			const response = await fetch(url, {
 				signal: controller.signal,
 				headers: { 'Accept': 'application/vnd.github+json' }
@@ -145,8 +146,14 @@
 				} catch (_) {}
 				const msg = `GitHub API error ${response.status}${apiMessage ? `: ${apiMessage}` : ''}`;
 				console.error(msg);
-				// 404: user không tồn tại hoặc không public gì → xem như rỗng
+				// 404: user không tồn tại hoặc không public gì
 				if (response.status === 404) {
+					// Thử lại 1 lần với DEFAULT_USER nếu khác username hiện tại
+					if (attempt === 0 && username !== DEFAULT_USER) {
+						console.warn('[repos] 404 with', username, '→ retry with DEFAULT_USER:', DEFAULT_USER);
+						await loadRepos(DEFAULT_USER, 1);
+						return;
+					}
 					renderRepos([]);
 					return;
 				}
