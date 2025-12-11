@@ -130,16 +130,33 @@
 
 	async function loadRepos(username) {
 		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), 12000);
+		const timeoutId = setTimeout(() => controller.abort(), 15000);
 		try {
-			const response = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`, {
+			const url = `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`;
+			const response = await fetch(url, {
 				signal: controller.signal,
-				headers: {
-					'Accept': 'application/vnd.github+json'
-				},
-				cache: 'no-cache'
+				headers: { 'Accept': 'application/vnd.github+json' }
 			});
-			if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+			if (!response.ok) {
+				let apiMessage = '';
+				try {
+					const errJson = await response.json();
+					apiMessage = errJson && errJson.message ? String(errJson.message) : '';
+				} catch (_) {}
+				const msg = `GitHub API error ${response.status}${apiMessage ? `: ${apiMessage}` : ''}`;
+				console.error(msg);
+				// 404: user không tồn tại hoặc không public gì → xem như rỗng
+				if (response.status === 404) {
+					renderRepos([]);
+					return;
+				}
+				// 403: thường do rate limit
+				if (response.status === 403) {
+					showError();
+					return;
+				}
+				throw new Error(msg);
+			}
 			/** @type {Array<any>} */
 			const repos = await response.json();
 			const filtered = repos
